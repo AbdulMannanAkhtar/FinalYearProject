@@ -1,0 +1,9 @@
+<resources>
+    <string name="app_name">myMotor</string>
+    <string-array name="gender_options">
+        <item>Gender</item>
+        <item>Male</item>
+        <item>Female</item>
+        <item>Other</item>
+    </string-array>
+</resources>

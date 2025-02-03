@@ -1,0 +1,113 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/main"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:gravity="center"
+    android:orientation="vertical"
+    android:background="@color/offWhite">
+
+    <androidx.cardview.widget.CardView
+        android:id="@+id/registerCard"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="20dp"
+        android:layout_marginTop="40dp"
+        app:cardBackgroundColor="@color/white">
+
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:padding="20dp">
+
+
+            <TextView
+                android:id="@+id/createProfile2"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Create your profile - Car"
+                android:gravity="center"
+                android:textColor="@color/royal_blue"
+                android:textStyle="bold"
+                android:textSize="26dp"/>
+
+            <EditText
+                android:id="@+id/carMake"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:ems="10"
+                android:gravity="left"
+                android:hint="Make (Toyota)"
+                android:layout_marginTop="30dp"
+                android:inputType="text" />
+
+            <EditText
+                android:id="@+id/carModel"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:ems="10"
+                android:gravity="left"
+                android:hint="Model (Corolla)"
+                android:inputType="text" />
+
+
+            <EditText
+                android:id="@+id/carYear"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:ems="10"
+                android:gravity="left"
+                android:hint="Year (2008)"
+                android:inputType="text" />
+
+            <LinearLayout
+                android:id="@+id/main1"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/white"
+                android:gravity="center_horizontal"
+                android:layout_margin="30dp"
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/carImage"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:text="Upload a picture of your car"
+                    android:textColor="@color/black"
+                    android:textSize="20sp" />
+
+
+                <ImageButton
+                    android:id="@+id/carImageBtn"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_marginTop="20dp"
+                    android:onClick="uploadImg"
+                    android:backgroundTint="@color/royal_blue"
+                    app:srcCompat="@android:drawable/ic_menu_camera" />
+            </LinearLayout>
+
+            <Button
+                android:id="@+id/next2"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:onClick="createProfile"
+                android:text="Create profile"
+                android:textColor="@color/white"
+                android:backgroundTint="@color/royal_blue"/>
+
+        </LinearLayout>
+
+    </androidx.cardview.widget.CardView>
+
+
+
+
+</LinearLayout>
