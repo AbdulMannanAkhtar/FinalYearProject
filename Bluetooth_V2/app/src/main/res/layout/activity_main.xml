@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/main"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:gravity="center"
+    android:orientation="vertical"
+    android:background="@color/offWhite">
+
+    <Button
+        android:id="@+id/on"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="50dp"
+        android:gravity="center"
+        android:onClick="bluetoothOn"
+        android:text="Turn on Bluetooth"
+        android:textColor="@color/white"
+        android:backgroundTint="@color/royal_blue"/>
+
+    <Button
+        android:id="@+id/pair"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="50dp"
+        android:gravity="center"
+        android:onClick="pair"
+        android:text="Pair devices"
+        android:textColor="@color/white"
+        android:backgroundTint="@color/royal_blue"/>
+
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/recyclerView"
+        android:layout_width="match_parent"
+        android:layout_height="278dp" />
+
+</LinearLayout>
