@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:padding="20dp"
+    android:textSize="16dp"
+    android:layout_gravity="bottom"
+    android:background="@color/offWhite">
+
+    <TextView
+        android:id="@+id/viewScan"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Do you want to view the results of this scan?"
+        android:layout_marginTop="10dp"
+        android:layout_marginBottom="20dp"
+        android:textAlignment="center"
+        android:textSize="16dp"
+        android:textColor="@color/royal_blue"/>
+
+    <LinearLayout
+        android:id="@+id/options"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="bottom|center_horizontal"
+        android:orientation="horizontal"
+        android:background="@color/offWhite"
+        android:layout_marginTop="20dp">
+
+    <Button
+        android:id="@+id/yes"
+        android:layout_width="100dp"
+        android:layout_height="50dp"
+        android:layout_marginTop="50dp"
+        android:layout_marginBottom="20dp"
+        android:layout_marginRight="10dp"
+        android:backgroundTint="@color/royal_blue"
+        android:layout_gravity="center"
+        android:onClick="yes"
+        android:text="Yes"
+        android:textColor="@color/white" />
+
+    <Button
+        android:id="@+id/no"
+        android:layout_width="100dp"
+        android:layout_height="50dp"
+        android:layout_marginTop="50dp"
+        android:layout_marginBottom="20dp"
+        android:backgroundTint="@color/royal_blue"
+        android:layout_gravity="center"
+        android:onClick="no"
+        android:text="No"
+        android:textColor="@color/white" />
+    </LinearLayout>
+
+</LinearLayout>

@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/offWhite">
+
+    <TextView
+
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Scan Result"
+        android:textSize="24dp"
+        android:textAlignment="center"
+        android:layout_marginTop="50dp"
+        android:layout_marginBottom="50dp"
+        android:textColor="@color/royal_blue">
+
+    </TextView>
+
+    <TextView
+        android:id="@+id/rawResults"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text=""
+        android:textSize="20dp"
+        android:textAlignment="center"
+        android:layout_marginTop="50dp"
+        android:layout_marginBottom="20dp"
+        android:textColor="@color/black">
+
+    </TextView>
+
+
+    <ListView
+        android:id="@+id/results"
+        android:layout_width="match_parent"
+        android:layout_height="315dp"
+        android:divider="@color/gold_grey"
+        android:dividerHeight="1dp">
+
+    </ListView>
+
+    <Button
+        android:id="@+id/close1"
+        android:layout_width="200dp"
+        android:layout_height="50dp"
+        android:layout_marginTop="100dp"
+        android:layout_marginBottom="20dp"
+        android:backgroundTint="@color/royal_blue"
+        android:layout_gravity="center"
+        android:onClick="close1"
+        android:text="Close"
+        android:textColor="@color/white" />
+
+</LinearLayout>
