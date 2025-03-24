@@ -39,6 +39,9 @@ import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.DatabaseReference
 import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.database.ValueEventListener
+import com.google.gson.Gson
+import com.google.gson.reflect.TypeToken
+import org.json.JSONObject
 import java.io.IOException
 import java.util.UUID
 
@@ -58,8 +61,8 @@ class HomeActivity : AppCompatActivity() {
 
 
     companion object{
-        //var connectedThread: ConnectedThread? = null
-        val myUUID = UUID.fromString("00001105-0000-1000-8000-00805F9B34FB")
+        var connectedThread: ConnectedThread? = null
+        val myUUID = UUID.fromString("00001101-0000-1000-8000-00805F9B34FB")
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -71,7 +74,6 @@ class HomeActivity : AppCompatActivity() {
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
             insets
         }
-
 
 
         bluetoothAdapter = BluetoothAdapter.getDefaultAdapter()
@@ -111,6 +113,10 @@ class HomeActivity : AppCompatActivity() {
         val db: DatabaseReference
         val userId = mAuth.currentUser?.uid
 
+        if (userId != null) {
+            obdDashboard(userId)
+        }
+
         db = FirebaseDatabase.getInstance().getReference("users/$userId/car")
 
         val carDetails = findViewById<TextView>(R.id.carDetails)
@@ -132,9 +138,13 @@ class HomeActivity : AppCompatActivity() {
             }
         })
 
+
+
+
+
     }
 
-
+//check permissions during runtime
     private fun checkPermissions(): Boolean {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
             val requiredPermissions = arrayOf(
@@ -152,7 +162,7 @@ class HomeActivity : AppCompatActivity() {
     }
 
 
-
+//request permissions
     private fun requestPermissions(): Boolean {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
             val requiredPermissions = arrayOf(
@@ -167,7 +177,7 @@ class HomeActivity : AppCompatActivity() {
         return true
     }
 
-
+//Broadcast bluetooth and look for other broadcasts
     private val receiver = object : BroadcastReceiver() {
 
         @SuppressLint("MissingPermission")
@@ -199,7 +209,7 @@ class HomeActivity : AppCompatActivity() {
         }
     }
 
-
+//Server thread to look for other bluetooth devices
     @SuppressLint("MissingPermission")
     private inner class AcceptThread : Thread() {
         private var mmServerSocket: BluetoothServerSocket? = null
@@ -240,6 +250,7 @@ class HomeActivity : AppCompatActivity() {
     }
 
 
+    //Client thread to connect to OBD2
     @SuppressLint("MissingPermission")
     private inner class ConnectThread(device: BluetoothDevice) : Thread(){
         private var mmSocket: BluetoothSocket? =null
@@ -285,6 +296,7 @@ class HomeActivity : AppCompatActivity() {
         }
     }
 
+    //Dialog for bluetooth devices RCV
     @SuppressLint("MissingPermission")
     fun bluetooth(v: View)
     {
@@ -335,7 +347,7 @@ class HomeActivity : AppCompatActivity() {
 
 
     }
-
+//look for bluetooth devices
     @SuppressLint("MissingPermission")
     fun scan(v: View)
     {
@@ -390,17 +402,15 @@ class HomeActivity : AppCompatActivity() {
             BluetoothSocketHolder.socket = socket
 
 
-
-            /*
             connectedThread = ConnectedThread(socket){
                     message ->
 
                 Log.i("Bluetooth", "recieved message:  $message")
             }
 
-             */
 
-            //connectedThread?.start()
+
+            connectedThread?.start()
 
             //val intent = Intent(this, communcation::class.java)
             //startActivity(intent)
@@ -416,8 +426,142 @@ class HomeActivity : AppCompatActivity() {
         acceptThread?.cancel()
         unregisterReceiver(receiver)
         connectThread?.cancel()
-       // connectedThread?.cancel()
+        connectedThread?.cancel()
     }
+
+    fun loadDescriptions(context: Context): Map<String, ObdDescriptions> {
+        val jsonString: String
+
+        val inputStream = context.assets.open("dtcResponses.json")
+        jsonString = inputStream.bufferedReader().use {
+            it.readText()
+        }
+
+        val type = object : TypeToken<Map<String, ObdDescriptions>>(){}.type
+
+        return Gson().fromJson(jsonString, type)
+
+    }
+
+    fun getLatestScan(userId: String, callback: (String?) -> Unit)
+    {
+        //val urgentCodes: TextView = findViewById(R.id.urgentCodes)
+
+        mAuth = FirebaseAuth.getInstance()
+
+        val db: DatabaseReference
+        //userId = mAuth.currentUser?.uid
+
+        db = FirebaseDatabase.getInstance().getReference("users").child(userId).child("scan")
+
+        db.orderByChild("timestamp").limitToLast(1).addListenerForSingleValueEvent(object : ValueEventListener
+        {
+            override fun onDataChange(snapshot: DataSnapshot) {
+                if(snapshot.exists())
+                {
+                    for(scanSnapshot in snapshot.children )
+                    {
+                        val rawCode = scanSnapshot.child("obdResponse").getValue(String::class.java)
+
+                        callback(rawCode)
+                        return
+                    }
+                    callback(null)
+                }
+
+
+
+            }
+
+            override fun onCancelled(error: DatabaseError) {
+
+            }
+        })
+
+    }
+
+    fun parseCodes(context: Context, rawCode: String): List<String> {
+        //val jsonString = loadDescriptions(context) ?: return emptyList()
+        val obdJson = loadDescriptions(context) ?: return emptyList()
+        val codes = rawCode.split(" ")
+        val urgentSeverity = mutableListOf<String>()
+
+        Log.d("Parsing", "Raw codes received: $codes")
+
+        for (c in codes)
+        {
+            if (obdJson.containsKey(c))
+            {
+               // val codeObject = obdJson.getJSONObject(c)
+                val severity = obdJson[c]?.severity ?: ""
+                Log.d("Parsing", "Code: $c, Severity: $severity")
+
+                if (severity == "Urgent")
+                {
+                    urgentSeverity.add(c)
+                }
+
+            }
+        }
+
+        return urgentSeverity
+    }
+
+    fun obdDashboard(userId: String)
+    {
+        getLatestScan(userId){
+            rawResponse ->
+            val urgentCodesTextView: TextView = findViewById(R.id.urgentCodes)
+
+
+
+
+            if(rawResponse != null)
+            {
+                val urgentCodes = parseCodes(applicationContext, rawResponse)
+                val count = urgentCodes.size
+                runOnUiThread {
+                    if(count > 0)
+                    {
+                        val message = "$count Urgent trouble codes found in latest scan " + urgentCodes.toString()
+
+                        urgentCodesTextView.text = message
+
+
+                    }
+                    else
+                    {
+                        val message = "There were no urgent trouble codes that need immediate attention in latest scan"
+                        urgentCodesTextView.text = message
+                    }
+                }
+
+            }
+        }
+    }
+
+
+
+
+
+    fun service(v: View)
+    {
+        val intent = Intent(this, ServiceActivity::class.java)
+        startActivity(intent)
+    }
+
+    fun home(v: View)
+    {
+        val intent = Intent(this, HomeActivity::class.java)
+        startActivity(intent)
+    }
+
+    fun journey(v: View)
+    {
+        val intent = Intent(this, JourneyActivity::class.java)
+        startActivity(intent)
+    }
+
 
 
 
