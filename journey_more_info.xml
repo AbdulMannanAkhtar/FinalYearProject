@@ -1,0 +1,179 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:padding="20dp"
+    android:textSize="16dp"
+    android:gravity="center_vertical"
+    android:background="@color/offWhite">
+
+
+
+    <androidx.cardview.widget.CardView
+        android:id="@+id/block1"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="8dp"
+        android:radius="4dp">
+
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="10dp"
+            android:background="@color/white">
+
+            <TextView
+                android:id="@+id/journey"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textColor="@color/royal_blue"
+                android:textSize="20dp"
+                android:textAlignment="center"/>
+
+
+            <TextView
+                android:id="@+id/travelled"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textAlignment="center"
+                android:layout_below="@+id/journey"
+                android:textColor="@color/black"/>
+
+
+        </RelativeLayout>
+
+    </androidx.cardview.widget.CardView>
+
+
+    <androidx.cardview.widget.CardView
+        android:id="@+id/block2"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="8dp"
+        android:radius="4dp">
+
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="10dp"
+            android:background="@color/water_blue">
+
+            <TextView
+                android:id="@+id/fuel"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textColor="@color/black"
+                android:textAlignment="textStart"/>
+
+
+            <TextView
+                android:id="@+id/distance"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textAlignment="textStart"
+                android:layout_below="@+id/fuel"
+                android:textColor="@color/black"/>
+
+            <TextView
+                android:id="@+id/avgSpeed"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textAlignment="textStart"
+                android:layout_below="@+id/distance"
+                android:textColor="@color/black"/>
+
+
+        </RelativeLayout>
+
+    </androidx.cardview.widget.CardView>
+
+
+    <androidx.cardview.widget.CardView
+        android:id="@+id/block3"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="8dp"
+        android:radius="4dp">
+
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="10dp"
+            android:background="@color/white">
+
+            <TextView
+                android:id="@+id/drivingStyle"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textColor="@color/black"
+                android:textAlignment="textStart"/>
+
+
+            <TextView
+                android:id="@+id/stats"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textAlignment="textStart"
+                android:layout_below="@+id/drivingStyle"
+                android:textColor="@color/black"/>
+
+            <TextView
+                android:id="@+id/moreInfo"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textAlignment="center"
+                android:layout_below="@+id/stats"
+                android:text="Tap for a more detailed breakdown"
+                android:onClick="graph"
+                android:textColor="@color/royal_blue"
+                android:textStyle="bold"/>
+
+
+        </RelativeLayout>
+
+    </androidx.cardview.widget.CardView>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:gravity="center">
+
+        <Button
+            android:id="@+id/close4"
+            android:layout_width="120dp"
+            android:layout_height="60dp"
+            android:layout_marginTop="30dp"
+            android:layout_marginRight="10dp"
+            android:layout_marginBottom="20dp"
+            android:backgroundTint="@color/royal_blue"
+            android:layout_gravity="center"
+            android:onClick="close4"
+            android:text="Close"
+            android:textColor="@color/white" />
+
+        <Button
+            android:id="@+id/Delete2"
+            android:layout_width="120dp"
+            android:layout_height="60dp"
+            android:layout_marginTop="30dp"
+            android:layout_marginBottom="20dp"
+            android:backgroundTint="@color/red"
+            android:layout_gravity="center"
+            android:onClick="deleteJourney"
+            android:text="Delete Journey"
+            android:textColor="@color/white" />
+
+
+    </LinearLayout>
+
+
+
+
+
+
+</LinearLayout>
