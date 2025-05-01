@@ -1,0 +1,137 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/main"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/offWhite"
+    android:gravity="center"
+    android:weightSum="2">
+
+    <TextView
+        android:id="@+id/weeklyReports"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="20dp"
+        android:text="Weekly Driving behaviour Report"
+        android:textAlignment="center"
+        android:textSize="24dp"
+        android:textColor="@color/royal_blue"
+        android:textStyle="bold">
+    </TextView>
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:fillViewport="true">
+
+        <LinearLayout
+            android:id="@+id/graphs"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="bottom|center_horizontal"
+            android:orientation="vertical"
+            android:background="@color/offWhite"
+            android:layout_marginTop="20dp">
+
+
+
+            <TextView
+                android:id="@+id/week"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textColor="@color/black"/>
+
+            <com.github.mikephil.charting.charts.BarChart
+                android:id="@+id/barChart"
+                android:layout_width="match_parent"
+                android:layout_height="200dp"
+                android:layout_marginBottom="10dp"/>
+
+            <com.github.mikephil.charting.charts.BarChart
+                android:id="@+id/fuelChart"
+                android:layout_width="match_parent"
+                android:layout_height="150dp"/>
+
+
+        </LinearLayout>
+
+
+    </ScrollView>
+
+
+    <LinearLayout
+        android:id="@+id/navPanel"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="bottom|center_horizontal"
+        android:orientation="horizontal"
+        android:background="@color/white"
+        android:layout_marginTop="95dp">
+
+
+        <Button
+            android:id="@+id/insuranceButton"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:layout_gravity="left|center_horizontal"
+            android:drawableTop="@drawable/insurance_button"
+            android:drawablePadding="8dp"
+            android:textSize="24dp"
+            android:backgroundTint="@color/royal_blue">
+
+        </Button>
+
+        <Button
+            android:id="@+id/serviceButton"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:layout_gravity="left"
+            android:drawableTop="@drawable/service_button"
+            android:onClick="service"
+            android:drawablePadding="8dp"
+            android:textSize="24dp"
+            android:backgroundTint="@color/royal_blue">
+
+        </Button>
+
+        <Button
+            android:id="@+id/homeButton"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:layout_gravity="center"
+            android:drawableTop="@drawable/home_button"
+            android:drawablePadding="8dp"
+            android:onClick="home"
+            android:textSize="24dp"
+            android:backgroundTint="@color/royal_blue">
+
+        </Button>
+
+        <Button
+            android:id="@+id/journeyButton"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:layout_gravity="right|center_horizontal"
+            android:drawableTop="@drawable/journey_button"
+            android:drawablePadding="8dp"
+            android:onClick="journey"
+            android:textSize="24dp"
+            android:backgroundTint="@color/royal_blue">
+
+        </Button>
+
+        <Button
+            android:id="@+id/taxButton"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:layout_gravity="right"
+            android:drawableTop="@drawable/tax_button"
+            android:drawablePadding="8dp"
+            android:textSize="24dp"
+            android:backgroundTint="@color/royal_blue">
+        </Button>
+    </LinearLayout>
+
+</LinearLayout>
