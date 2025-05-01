@@ -14,12 +14,14 @@ import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import com.github.mikephil.charting.charts.BarChart
 import com.github.mikephil.charting.components.Legend
+import com.github.mikephil.charting.components.LegendEntry
 import com.github.mikephil.charting.components.XAxis
 import com.github.mikephil.charting.data.BarData
 import com.github.mikephil.charting.data.BarDataSet
 import com.github.mikephil.charting.data.BarEntry
 import com.github.mikephil.charting.formatter.IndexAxisValueFormatter
 import com.github.mikephil.charting.formatter.ValueFormatter
+import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.database.DataSnapshot
@@ -196,7 +198,7 @@ class BehaviourReportActivity: AppCompatActivity() {
 
             }
 
-            barChart.setExtraOffsets(32f, 0f, 16f, 32f)
+            barChart.setExtraOffsets(16f, 0f, 16f, 32f)
             barChart.animateY(800)
             barChart.invalidate()
 
@@ -251,16 +253,69 @@ class BehaviourReportActivity: AppCompatActivity() {
             fuelChart.legend.apply{
                 verticalAlignment = Legend.LegendVerticalAlignment.BOTTOM
                 horizontalAlignment = Legend.LegendHorizontalAlignment.CENTER
-                orientation = Legend.LegendOrientation.HORIZONTAL
+                orientation = Legend.LegendOrientation.VERTICAL
                 setDrawInside(false)
-                isWordWrapEnabled = true
+                isWordWrapEnabled = false
+                yOffset = 40f
+                xEntrySpace = 5f
+                yEntrySpace = 5f
+                formToTextSpace = 8f
 
             }
 
-            barChart.setExtraOffsets(16f, 0f, 16f, 38f)
-            barChart.animateY(800)
-            barChart.invalidate()
+            fuelChart.legend.isEnabled = true
 
+            val legendKey = listOf(
+                LegendEntry(
+                    "Aggressive", Legend.LegendForm.SQUARE, 10f, Float.NaN, null,
+                    ContextCompat.getColor(this, R.color.red )
+                ),
+                LegendEntry(
+                    "Calm", Legend.LegendForm.SQUARE, 10f, Float.NaN, null,
+                    ContextCompat.getColor(this, R.color.green )
+                )
+
+            )
+
+
+            fuelChart.legend.setCustom(legendKey)
+            fuelChart.setExtraOffsets(16f, 0f, 16f, 16f)
+            fuelChart.animateY(800)
+            fuelChart.invalidate()
+
+
+            val bottomNav = findViewById<BottomNavigationView>(R.id.bottomNav)
+
+            bottomNav.setOnItemSelectedListener {
+                    menuItem ->
+                when(menuItem.itemId)
+                {
+
+                    R.id.serviceButton -> {
+                        val intent = Intent(this, ServiceActivity::class.java)
+                        startActivity(intent)
+                        true
+                    }
+                    R.id.homeButton -> {
+                        val intent = Intent(this, HomeActivity::class.java)
+                        startActivity(intent)
+                        true
+                    }
+
+                    R.id.journeyButton -> {
+                        val intent = Intent(this, JourneyActivity::class.java)
+                        startActivity(intent)
+                        true
+                    }
+                    R.id.scheduleButton -> {
+                        val intent = Intent(this, ServiceActivity::class.java)
+                        startActivity(intent)
+                        true
+                    }
+                    else -> false
+                }
+
+            }
 
 
 
@@ -316,18 +371,5 @@ class BehaviourReportActivity: AppCompatActivity() {
     }
 
 
-    fun service(v: View) {
-        val intent = Intent(this, ServiceActivity::class.java)
-        startActivity(intent)
-    }
 
-    fun home(v: View) {
-        val intent = Intent(this, HomeActivity::class.java)
-        startActivity(intent)
-    }
-
-    fun journey(v: View) {
-        val intent = Intent(this, JourneyActivity::class.java)
-        startActivity(intent)
-    }
 }

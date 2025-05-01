@@ -1,127 +1,79 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical"
     android:id="@+id/main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/offWhite"
-    android:gravity="center"
-    android:weightSum="2">
+    android:background="@color/offWhite">
 
-
-    <TextView
-        android:id="@+id/journeys"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="20dp"
-        android:text="Your Journeys"
-        android:textAlignment="center"
-        android:textSize="24dp"
-        android:textColor="@color/royal_blue"
-        android:textStyle="bold">
-    </TextView>
-
-
-
-    <ScrollView
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="1"
-        android:fillViewport="true">
+        android:orientation="vertical">
 
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/recyclerView"
+        <TextView
+            android:id="@+id/journeys"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
-
-    </ScrollView>
-
-
-
-    <Button
-        android:id="@+id/trackJourney"
-        android:layout_width="200dp"
-        android:layout_height="50dp"
-        android:layout_gravity="center"
-        android:backgroundTint="@color/royal_blue"
-        android:text="New Journey"
-        android:onClick="trackJourney"
-        android:layout_marginTop="20dp"
-        android:textColor="@color/white">
-    </Button>
-
-    <LinearLayout
-        android:id="@+id/navPanel"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:gravity="bottom|center_horizontal"
-        android:orientation="horizontal"
-        android:background="@color/white"
-        android:layout_marginTop="20dp">
-
-
-        <Button
-            android:id="@+id/insuranceButton"
-            android:layout_width="50dp"
-            android:layout_height="50dp"
-            android:layout_gravity="left|center_horizontal"
-            android:drawableTop="@drawable/insurance_button"
-            android:drawablePadding="8dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="150dp"
+            android:layout_marginBottom="20dp"
+            android:text="Your Journeys"
+            android:textAlignment="center"
             android:textSize="24dp"
-            android:backgroundTint="@color/royal_blue">
+            android:textColor="@color/royal_blue"
+            android:textStyle="bold">
+        </TextView>
 
-        </Button>
+
+
+        <ScrollView
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:fillViewport="true">
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/recyclerView"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+
+        </ScrollView>
+
+
 
         <Button
-            android:id="@+id/serviceButton"
-            android:layout_width="50dp"
-            android:layout_height="50dp"
-            android:layout_gravity="left"
-            android:drawableTop="@drawable/service_button"
-            android:onClick="service"
-            android:drawablePadding="8dp"
-            android:textSize="24dp"
-            android:backgroundTint="@color/royal_blue">
-
-        </Button>
-
-        <Button
-            android:id="@+id/homeButton"
-            android:layout_width="50dp"
+            android:id="@+id/trackJourney"
+            android:layout_width="200dp"
             android:layout_height="50dp"
             android:layout_gravity="center"
-            android:drawableTop="@drawable/home_button"
-            android:drawablePadding="8dp"
-            android:onClick="home"
-            android:textSize="24dp"
-            android:backgroundTint="@color/royal_blue">
-
-        </Button>
-
-        <Button
-            android:id="@+id/journeyButton"
-            android:layout_width="50dp"
-            android:layout_height="50dp"
-            android:layout_gravity="right|center_horizontal"
-            android:drawableTop="@drawable/journey_button"
-            android:drawablePadding="8dp"
-            android:textSize="24dp"
-            android:onClick="journey"
-            android:backgroundTint="@color/royal_blue">
-
-        </Button>
-
-        <Button
-            android:id="@+id/taxButton"
-            android:layout_width="50dp"
-            android:layout_height="50dp"
-            android:layout_gravity="right"
-            android:drawableTop="@drawable/tax_button"
-            android:drawablePadding="8dp"
-            android:textSize="24dp"
-            android:backgroundTint="@color/royal_blue">
-
+            android:backgroundTint="@color/royal_blue"
+            android:text="New Journey"
+            android:onClick="trackJourney"
+            android:layout_marginTop="20dp"
+            android:layout_marginBottom="50dp"
+            android:textColor="@color/white">
         </Button>
 
     </LinearLayout>
+
+
+
+
+    <com.google.android.material.bottomnavigation.BottomNavigationView
+        android:id="@+id/bottomNav"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:itemIconSize="32dp"
+        app:itemTextAppearanceActive="@style/Widget.MyApp.BottomNav.TextActive"
+        app:itemTextAppearanceInactive="@style/Widget.MyApp.BottomNav.TextInactive"
+        app:labelVisibilityMode="labeled"
+        android:layout_marginBottom="10dp"
+        android:background="@color/water_blue"
+        app:menu="@menu/bottom_nav_menu"
+        app:itemIconTint="@color/royal_blue"
+        app:itemTextAppearanceActiveBoldEnabled="true"
+        app:itemTextColor="@color/white"
+        app:itemHorizontalTranslationEnabled="false"/>
 
 </LinearLayout>

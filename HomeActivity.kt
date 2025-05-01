@@ -18,6 +18,8 @@ import android.os.Build
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
+import android.view.Menu
+import android.view.MenuItem
 import android.view.View
 import android.widget.Button
 import android.widget.TextView
@@ -32,6 +34,7 @@ import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.database.DataSnapshot
@@ -137,6 +140,45 @@ class HomeActivity : AppCompatActivity() {
 
             }
         })
+
+
+
+        val bottomNav = findViewById<BottomNavigationView>(R.id.bottomNav)
+
+        bottomNav.selectedItemId = R.id.homeButton
+
+
+        bottomNav.setOnItemSelectedListener {
+            menuItem ->
+            when(menuItem.itemId)
+            {
+                R.id.serviceButton -> {
+                    val intent = Intent(this, ServiceActivity::class.java)
+                    startActivity(intent)
+                    true
+                }
+                R.id.homeButton -> {
+                    if(this !is HomeActivity)
+                    {
+                        val intent = Intent(this, HomeActivity::class.java)
+                        startActivity(intent)
+                    }
+                    true
+                }
+                R.id.journeyButton -> {
+                    val intent = Intent(this, JourneyActivity::class.java)
+                    startActivity(intent)
+                    true
+                }
+                R.id.scheduleButton -> {
+                    val intent = Intent(this, ServiceActivity::class.java)
+                    startActivity(intent)
+                    true
+                }
+                else -> false
+            }
+
+        }
 
 
 
@@ -443,7 +485,7 @@ class HomeActivity : AppCompatActivity() {
 
     }
 
-    fun getLatestScan(userId: String, callback: (String?) -> Unit)
+    fun getLatestScan(userId: String, callback: (Scan?) -> Unit)
     {
         //val urgentCodes: TextView = findViewById(R.id.urgentCodes)
 
@@ -461,9 +503,9 @@ class HomeActivity : AppCompatActivity() {
                 {
                     for(scanSnapshot in snapshot.children )
                     {
-                        val rawCode = scanSnapshot.child("obdResponse").getValue(String::class.java)
+                        val scanObj = scanSnapshot.getValue(Scan::class.java)
 
-                        callback(rawCode)
+                        callback(scanObj)
                         return
                     }
                     callback(null)
@@ -510,15 +552,15 @@ class HomeActivity : AppCompatActivity() {
     fun obdDashboard(userId: String)
     {
         getLatestScan(userId){
-            rawResponse ->
+            scan ->
             val urgentCodesTextView: TextView = findViewById(R.id.urgentCodes)
 
 
 
 
-            if(rawResponse != null)
+            if(scan != null)
             {
-                val urgentCodes = parseCodes(applicationContext, rawResponse)
+                val urgentCodes = parseCodes(applicationContext, scan.obdResponse)
                 val count = urgentCodes.size
                 runOnUiThread {
                     if(count > 0)
@@ -527,11 +569,14 @@ class HomeActivity : AppCompatActivity() {
 
                         urgentCodesTextView.text = message
 
+                        //val view: TextView = findViewById(R.id.viewCodes)
+
+
 
                     }
                     else
                     {
-                        val message = "There were no urgent trouble codes that need immediate attention in latest scan"
+                        val message = "There were no urgent trouble codes that need immediate attention in the latest scan"
                         urgentCodesTextView.text = message
                     }
                 }
@@ -542,7 +587,24 @@ class HomeActivity : AppCompatActivity() {
 
 
 
+    override fun onCreateOptionsMenu(menu: Menu?): Boolean
+    {
+        menuInflater.inflate(R.menu.main_menu, menu)
+        return true
+    }
 
+
+    fun reports(menuItem: MenuItem)
+    {
+        val intent = Intent(this, ReportActivity::class.java)
+        startActivity(intent)
+    }
+
+    fun weeklyReport(menuItem: MenuItem)
+    {
+        val intent = Intent(this, BehaviourReportActivity::class.java)
+        startActivity(intent)
+    }
 
     fun service(v: View)
     {

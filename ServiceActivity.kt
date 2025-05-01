@@ -47,6 +47,9 @@ import java.util.Locale
 import android.Manifest
 import android.content.ActivityNotFoundException
 import android.net.Uri
+import android.view.Menu
+import android.view.MenuItem
+import com.google.android.material.bottomnavigation.BottomNavigationView
 
 
 class ServiceActivity : AppCompatActivity() {
@@ -57,7 +60,7 @@ class ServiceActivity : AppCompatActivity() {
     private lateinit var adapter: serviceAdapter
     //private val scanList=  mutableListOf<Scan>()
 
-    override fun onCreate(savedInstanceState: Bundle?) {
+    override fun onCreate(savedInstanceState: Bundle?)   {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
         setContentView(R.layout.activity_service)
@@ -81,6 +84,31 @@ class ServiceActivity : AppCompatActivity() {
 
         //sampleData()
 
+        val db: DatabaseReference = FirebaseDatabase.getInstance().getReference("users/$userId/car")
+
+        db.addValueEventListener(object: ValueEventListener
+        {
+            override fun onDataChange(snapshot: DataSnapshot)
+            {
+                val yourCar: TextView = findViewById(R.id.yourCar)
+
+
+                val make = snapshot.child("make").getValue(String::class.java)
+                val model = snapshot.child("model").getValue(String::class.java)
+                val year = snapshot.child("year").getValue(Int::class.java)
+
+                val car = " $make $model; $year"
+                yourCar.text = car
+            }
+
+            override fun onCancelled(error: DatabaseError) {
+
+            }
+        })
+
+
+
+
 
         val getScan: DatabaseReference = FirebaseDatabase.getInstance().getReference("users/$userId/scan")
 
@@ -88,6 +116,7 @@ class ServiceActivity : AppCompatActivity() {
             override fun onDataChange(snapshot: DataSnapshot) {
                 //OBDScans.clear()
                 val tempList = mutableListOf<Scan>()
+
 
                 for (scanSnapshot in snapshot.children) {
                     try {
@@ -125,12 +154,69 @@ class ServiceActivity : AppCompatActivity() {
                 OBDScans.clear()
                 OBDScans.addAll(tempList)
                 adapter.notifyDataSetChanged()
+
+                val openResponse = intent.getBooleanExtra("openResponse", false)
+                val scanID = intent.getStringExtra("scanID")
+
+                if(openResponse && scanID != null)
+                {
+                    val showScan = OBDScans.find{
+                        it.scanID == scanID
+                    }
+
+                    if(showScan != null)
+                    {
+                        responseDialog(showScan)
+                    }
+                }
+
+
             }
 
 
             override fun onCancelled(error: DatabaseError) {
             }
         })
+
+        val bottomNav = findViewById<BottomNavigationView>(R.id.bottomNav)
+
+        bottomNav.selectedItemId = R.id.serviceButton
+
+
+        bottomNav.setOnItemSelectedListener {
+                menuItem ->
+            when(menuItem.itemId)
+            {
+
+                R.id.serviceButton -> {
+                    if(this !is ServiceActivity)
+                    {
+                        val intent = Intent(this, ServiceActivity::class.java)
+                        startActivity(intent)
+                    }
+                    true
+                }
+                R.id.homeButton -> {
+                    val intent = Intent(this, HomeActivity::class.java)
+                    startActivity(intent)
+                    true
+                }
+                R.id.journeyButton -> {
+                    val intent = Intent(this, JourneyActivity::class.java)
+                    startActivity(intent)
+                    true
+                }
+                R.id.scheduleButton -> {
+                    val intent = Intent(this, ServiceActivity::class.java)
+                    startActivity(intent)
+                    true
+                }
+                else -> false
+            }
+
+        }
+
+
 
 
     }
@@ -265,17 +351,7 @@ class ServiceActivity : AppCompatActivity() {
 
     }
 
-    fun sampleDataBtn(v: View)
-    {
-        val scan = sampleData()
 
-        if(scan != null)
-        {
-            confirmDialog(scan)
-        }
-
-
-    }
 
     fun confirmDialog(scan: Scan)
     {
@@ -318,6 +394,52 @@ class ServiceActivity : AppCompatActivity() {
 
     }
 
+    fun parseObdCodes(rawResponse: String): List<String> {
+
+        val cleaned = rawResponse.replace(">", "").trim()
+        return cleaned.split(" ").filter { it.matches(Regex("^[A-Z0-9]+$")) }
+    }
+
+
+
+    fun deleteScan(scan: Scan)
+    {
+        val userId = FirebaseAuth.getInstance().currentUser?.uid ?: return
+
+        val db = FirebaseDatabase.getInstance().getReference("users").child(userId).child("scan")
+
+        db.child(scan.scanID).removeValue().addOnSuccessListener {
+
+            val dbRef = FirebaseDatabase.getInstance().getReference("users").child(userId).child("scan")
+
+            dbRef.addListenerForSingleValueEvent(object: ValueEventListener{
+                override fun onDataChange(snapshot: DataSnapshot) {
+                    val tempList = mutableListOf<Scan>()
+                    for(scanSnapshot in snapshot.children)
+                    {
+                        val scanObj = scanSnapshot.getValue(Scan::class.java)
+                        if(scanObj != null)
+                        {
+                            tempList.add(scanObj)
+                        }
+                    }
+
+                    OBDScans.clear()
+                    OBDScans.addAll(tempList)
+                    adapter.notifyDataSetChanged()
+
+                }
+
+                override fun onCancelled(error: DatabaseError) {
+
+                }
+            })
+        }
+
+    }
+
+
+
     fun responseDialog(scan: Scan)
     {
         val inflater: LayoutInflater = LayoutInflater.from(this)
@@ -331,10 +453,19 @@ class ServiceActivity : AppCompatActivity() {
 
         val response: ListView = dialog.findViewById(R.id.results)
         val rawResult: TextView = dialog.findViewById(R.id.rawResults)
+        val scannedAt: TextView = dialog.findViewById(R.id.scannedAt)
         val closeButton: Button = dialog.findViewById(R.id.close1)
+        val deleteButton: Button = dialog.findViewById(R.id.Delete)
+
 
         val descriptions = loadDescriptions(this)
 
+
+        val time = scan.timestamp
+
+        val sdf = SimpleDateFormat("dd:MM:yyyy HH:mm:ss", Locale.getDefault())
+
+        scannedAt.text = "Scanned at: " + sdf.format(Date(time))
 
 
         val cleanResponse = scan.obdResponse.replace(">", "").trim()
@@ -380,15 +511,14 @@ class ServiceActivity : AppCompatActivity() {
         }
 
 
-
-
+        deleteButton.setOnClickListener {
+            deleteScan(scan)
+            alertDialog.dismiss()
+        }
 
         closeButton.setOnClickListener {
             alertDialog.dismiss()
         }
-
-        alertDialog.show()
-
 
 
     }
@@ -426,15 +556,17 @@ class ServiceActivity : AppCompatActivity() {
        // val scanReference = db.child("users").child(userId).child("scan")
 
         val scanKey = db.push().key ?: return null
-        val sampleScan = Scan(scanID = "sampleScan2",
+        val sampleScan = Scan(scanID = "sampleScan3",
             timestamp = System.currentTimeMillis(),
-            obdResponse = "03 | 43 P0440 | >")
+            obdResponse = "03 | 43 P0004 | >")
 
         db.child(scanKey).setValue(sampleScan).addOnSuccessListener {
 
         }
         return sampleScan
     }
+
+
 
     fun moreInfo(code: String, obdData: ObdDescriptions)
     {
@@ -700,26 +832,25 @@ class ServiceActivity : AppCompatActivity() {
 
     }
 
-
-
-
-    fun service(v: View)
+    override fun onCreateOptionsMenu(menu: Menu?): Boolean
     {
-        val intent = Intent(this, ServiceActivity::class.java)
+        menuInflater.inflate(R.menu.main_menu, menu)
+        return true
+    }
+
+
+    fun reports(menuItem: MenuItem)
+    {
+        val intent = Intent(this, ReportActivity::class.java)
         startActivity(intent)
     }
 
-    fun home(v: View)
+    fun weeklyReport(menuItem: MenuItem)
     {
-        val intent = Intent(this, HomeActivity::class.java)
+        val intent = Intent(this, BehaviourReportActivity::class.java)
         startActivity(intent)
     }
 
-    fun journey(v: View)
-    {
-        val intent = Intent(this, JourneyActivity::class.java)
-        startActivity(intent)
-    }
 
 
 

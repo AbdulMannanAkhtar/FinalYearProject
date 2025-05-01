@@ -4,6 +4,7 @@ import android.Manifest
 import android.annotation.SuppressLint
 import android.content.Intent
 import android.content.pm.PackageManager
+import android.graphics.Typeface
 import android.health.connect.datatypes.units.Percentage
 import android.location.Location
 import android.os.Build
@@ -11,6 +12,8 @@ import android.os.Bundle
 import android.os.Looper
 import android.util.Log
 import android.view.LayoutInflater
+import android.view.Menu
+import android.view.MenuItem
 import android.view.View
 import android.widget.Button
 import android.widget.EditText
@@ -47,6 +50,7 @@ import kotlin.math.abs
 import com.github.mikephil.charting.data.PieEntry
 import com.github.mikephil.charting.formatter.DefaultValueFormatter
 import com.github.mikephil.charting.formatter.PercentFormatter
+import com.google.android.material.bottomnavigation.BottomNavigationView
 
 
 class JourneyActivity : AppCompatActivity() {
@@ -141,10 +145,48 @@ class JourneyActivity : AppCompatActivity() {
             }
         })
 
+        val bottomNav = findViewById<BottomNavigationView>(R.id.bottomNav)
+
+        bottomNav.selectedItemId = R.id.journeyButton
+
+        bottomNav.setOnItemSelectedListener {
+                menuItem ->
+            when(menuItem.itemId)
+            {
+
+                R.id.serviceButton -> {
+                    val intent = Intent(this, ServiceActivity::class.java)
+                    startActivity(intent)
+                    true
+                }
+                R.id.homeButton -> {
+                    val intent = Intent(this, HomeActivity::class.java)
+                    startActivity(intent)
+                    true
+                }
+
+                R.id.journeyButton -> {
+                    if(this !is JourneyActivity)
+                    {
+                        val intent = Intent(this, JourneyActivity::class.java)
+                        startActivity(intent)
+                    }
+                    true
+                }
+                R.id.scheduleButton -> {
+                    val intent = Intent(this, ServiceActivity::class.java)
+                    startActivity(intent)
+                    true
+                }
+                else -> false
+            }
+
+        }
+
 
     }
 
-    fun sampleJourney(): Journey? {
+    fun sampleJourney(): List<Journey>? {
         mAuth = FirebaseAuth.getInstance()
         mUser = FirebaseAuth.getInstance().currentUser
 
@@ -154,19 +196,33 @@ class JourneyActivity : AppCompatActivity() {
         val userId: String = mUser!!.uid
 
         val db = FirebaseDatabase.getInstance().getReference("users").child(userId).child("journey")
-        // val scanReference = db.child("users").child(userId).child("scan")
 
-        val scanKey = db.push().key ?: return null
-        val sampleJourney = Journey(
-            id = "002", name = "shopping",
-            timestamp = System.currentTimeMillis(),
-            to = "Enniscorthy", from = "Ferns", timeTaken = "11 minutes", distance = "11.7",
+        val now = System.currentTimeMillis()
+
+        val aggressiveJourney = Journey(
+            id = "1", name = "Speed Run", to = "Wexford Dunnes", from = "Home", timestamp = now, startFuel = 50.0f,
+            endFuel = 45.0f, usedFuel = 5.0f, distance = "25.4", timeTaken = "00:25:00", endTime  = now + 25 * 60 * 1000,
+            avgSpeed = 61.0f, totalAccelerations = 42, aggressiveAccelerations = 28, totalBrakings = 38, aggressiveBrakings = 24,
+            drivingStyle = "aggressive", accTime = 15.2f, brakeTime = 12.8f
         )
 
-        db.child(scanKey).setValue(sampleJourney).addOnSuccessListener {
+        val calmJourney = Journey(
+            id = "2", name = "Cruising", to = "Town", from = "Home", timestamp = now + 60 * 60 * 1000, startFuel = 30.0f,
+            endFuel = 29.6f, usedFuel = 0.4f, distance = "5.2", timeTaken = "00:15:00", endTime = now + 75 * 60 * 1000,
+            avgSpeed = 21.0f, totalAccelerations= 12, aggressiveAccelerations = 1, totalBrakings = 10, aggressiveBrakings = 0,
+            drivingStyle = "calm", accTime = 4.5f, brakeTime  = 3.2f
+        )
 
+        listOf(aggressiveJourney, calmJourney).forEach {
+            journey ->
+            val key = db.push().key
+            if(key != null)
+            {
+                db.child(key).setValue(journey)
+            }
         }
-        return sampleJourney
+
+        return listOf(aggressiveJourney, calmJourney)
     }
 
     private fun checkPermissions(): Boolean {
@@ -718,6 +774,7 @@ class JourneyActivity : AppCompatActivity() {
 
             val journeyName2: TextView = dialog2.findViewById(R.id.journeyName)
             val behaviourGraph = dialog2.findViewById<PieChart>(R.id.behaviourGraph)
+            val timingGraph = dialog2.findViewById<PieChart>(R.id.timingsGraph)
             val closeButton2: Button = dialog2.findViewById(R.id.close5)
 
 
@@ -758,6 +815,8 @@ class JourneyActivity : AppCompatActivity() {
             behaviourGraph.holeRadius = 50f
             behaviourGraph.transparentCircleRadius = 40f
             behaviourGraph.centerText = "Accelerations & Brakings"
+            behaviourGraph.setEntryLabelColor(ContextCompat.getColor(this@JourneyActivity, R.color.black))
+            //behaviourGraph.setEntryLabelTypeface(Typeface.DEFAULT_BOLD)
             //behaviourGraph.invalidate()
 
             val legend = behaviourGraph.legend
@@ -775,6 +834,51 @@ class JourneyActivity : AppCompatActivity() {
 
             behaviourGraph.invalidate()
 
+
+            val graph2Entries = listOf(
+                PieEntry(journey.accTime, "Acceleration time"),
+                PieEntry(journey.brakeTime, "Brake time"))
+
+
+            val graph2Data = PieDataSet(graph2Entries, "Acceleration and Brake time").apply{
+                colors = listOf(
+                    ContextCompat.getColor(this@JourneyActivity, R.color.bluetooth_blue),
+                    ContextCompat.getColor(this@JourneyActivity, R.color.green),
+                )
+
+                sliceSpace = 3f
+                valueTextSize = 10f
+                valueTextColor = R.color.black
+                setValueFormatter(DefaultValueFormatter(4))
+            }
+
+            timingGraph.data = PieData(graph2Data)
+
+            timingGraph.setUsePercentValues(false)
+            timingGraph.description.isEnabled = false
+            timingGraph.isDrawHoleEnabled = true
+            timingGraph.holeRadius = 50f
+            timingGraph.transparentCircleRadius = 40f
+            timingGraph.centerText = "Timing"
+            timingGraph.setEntryLabelColor(ContextCompat.getColor(this@JourneyActivity, R.color.black))
+            //timingGraph.setEntryLabelTypeface(Typeface.DEFAULT_BOLD)
+            //behaviourGraph.invalidate()
+
+            val legend2 = timingGraph.legend
+            legend2.verticalAlignment = Legend.LegendVerticalAlignment.BOTTOM
+            legend2.horizontalAlignment = Legend.LegendHorizontalAlignment.CENTER
+            legend2.orientation = Legend.LegendOrientation.HORIZONTAL
+
+            legend2.setDrawInside(false)
+            legend2.isWordWrapEnabled = true
+            legend2.xEntrySpace = 8f
+            legend2.yEntrySpace = 4f
+            legend2.yOffset = 8f
+
+            timingGraph.setExtraOffsets(0f, 0f, 0f, 0f)
+
+            timingGraph.invalidate()
+
             closeButton2.setOnClickListener {
                 alertDialog2.dismiss()
             }
@@ -787,6 +891,23 @@ class JourneyActivity : AppCompatActivity() {
     }
 
 
+    override fun onCreateOptionsMenu(menu: Menu?): Boolean
+    {
+        menuInflater.inflate(R.menu.main_menu, menu)
+        return true
+    }
+
+    fun reports(menuItem: MenuItem)
+    {
+        val intent = Intent(this, ReportActivity::class.java)
+        startActivity(intent)
+    }
+
+    fun weeklyReport(menuItem: MenuItem)
+    {
+        val intent = Intent(this, BehaviourReportActivity::class.java)
+        startActivity(intent)
+    }
 
 
     fun service(v: View) {

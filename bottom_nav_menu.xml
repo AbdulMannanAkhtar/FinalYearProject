@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item
+        android:id="@+id/serviceButton"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:layout_gravity="left"
+        android:icon="@drawable/service_button"
+        android:title="Service"
+        android:drawablePadding="8dp"
+        android:textSize="24dp"/>
+
+    <item
+        android:id="@+id/homeButton"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:layout_gravity="center"
+        android:title="Home"
+        android:icon="@drawable/home_button"
+        android:drawablePadding="8dp"
+        android:textSize="24dp"/>
+
+    <item
+        android:id="@+id/journeyButton"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:layout_gravity="right|center_horizontal"
+        android:icon="@drawable/journey_button"
+        android:drawablePadding="8dp"
+        android:title="Journey"
+        android:textSize="24dp"/>
+
+    <item
+        android:id="@+id/scheduleButton"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:layout_gravity="right"
+        android:icon="@drawable/tax_button"
+        android:title="Schedule"
+        android:drawablePadding="8dp"
+        android:textSize="24dp"/>
+
+
+
+</menu>

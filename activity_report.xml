@@ -8,12 +8,12 @@
     android:background="@color/offWhite">
 
     <TextView
-        android:id="@+id/weeklyReports"
+        android:id="@+id/serviceReports"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="20dp"
         android:layout_marginTop="50dp"
-        android:text="Weekly Driving behaviour Report"
+        android:layout_marginBottom="20dp"
+        android:text="Service Reports"
         android:textAlignment="center"
         android:textSize="24dp"
         android:textColor="@color/royal_blue"
@@ -26,18 +26,24 @@
         android:layout_weight="1"
         android:fillViewport="true">
 
-
         <LinearLayout
             android:id="@+id/graphs"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical"
-            android:background="@color/offWhite">
-
+            android:background="@color/offWhite"
+            android:layout_marginTop="20dp">
 
 
             <TextView
-                android:id="@+id/week"
+                android:id="@+id/title"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textColor="@color/black"
+                android:text="6 Month Report"/>
+
+            <TextView
+                android:id="@+id/report"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:textColor="@color/black"/>
@@ -45,19 +51,15 @@
             <com.github.mikephil.charting.charts.BarChart
                 android:id="@+id/barChart"
                 android:layout_width="match_parent"
-                android:layout_height="200dp"
-                android:layout_marginBottom="10dp"/>
-
-            <com.github.mikephil.charting.charts.BarChart
-                android:id="@+id/fuelChart"
-                android:layout_width="match_parent"
-                android:layout_height="150dp"/>
+                android:layout_height="200dp"/>
 
 
         </LinearLayout>
 
+
     </ScrollView>
-    
+
+
     <com.google.android.material.bottomnavigation.BottomNavigationView
         android:id="@+id/bottomNav"
         android:layout_width="match_parent"
@@ -74,4 +76,7 @@
         app:itemTextColor="@color/white"
         app:itemHorizontalTranslationEnabled="false"/>
 
-</LinearLayout>
+
+
+
+    </LinearLayout>
