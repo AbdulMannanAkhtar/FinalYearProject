@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:padding="20dp"
+    android:textSize="16dp"
+    android:gravity="center_vertical"
+    android:background="@color/offWhite">
+
+    <TextView
+        android:id="@+id/addReminderTitle"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Add Reminder"
+        android:layout_marginTop="10dp"
+        android:layout_marginBottom="20dp"
+        android:textAlignment="center"
+        android:textSize="24dp"
+        android:textColor="@color/royal_blue"/>
+
+    <EditText
+        android:id="@+id/newReminder"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:layout_marginTop="20dp"
+        android:gravity="left"
+        android:hint="Reminder name"
+        android:inputType="text" />
+
+
+    <DatePicker
+        android:id="@+id/datePicker"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:calendarViewShown="true"
+        android:layout_marginTop="10dp"/>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:gravity="center">
+
+
+
+        <Button
+            android:id="@+id/addReminder"
+            android:layout_width="150dp"
+            android:layout_height="50dp"
+            android:layout_marginTop="50dp"
+            android:layout_marginBottom="20dp"
+            android:backgroundTint="@color/royal_blue"
+            android:layout_gravity="center"
+            android:onClick="addReminder"
+            android:text="Add Reminder"
+            android:textColor="@color/white" />
+
+        <Button
+            android:id="@+id/close6"
+            android:layout_width="150dp"
+            android:layout_height="50dp"
+            android:layout_marginTop="50dp"
+            android:layout_marginRight="10dp"
+            android:layout_marginBottom="20dp"
+            android:backgroundTint="@color/royal_blue"
+            android:layout_gravity="center"
+            android:onClick="close6"
+            android:text="Close"
+            android:textColor="@color/white" />
+
+
+    </LinearLayout>
+
+
+
+
+</LinearLayout>
