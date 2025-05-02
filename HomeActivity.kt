@@ -141,6 +141,10 @@ class HomeActivity : AppCompatActivity() {
             }
         })
 
+        if (userId != null) {
+            getLatestJourney(userId)
+        }
+
 
 
         val bottomNav = findViewById<BottomNavigationView>(R.id.bottomNav)
@@ -171,7 +175,7 @@ class HomeActivity : AppCompatActivity() {
                     true
                 }
                 R.id.scheduleButton -> {
-                    val intent = Intent(this, ServiceActivity::class.java)
+                    val intent = Intent(this, ScheduleActivity::class.java)
                     startActivity(intent)
                     true
                 }
@@ -583,6 +587,54 @@ class HomeActivity : AppCompatActivity() {
 
             }
         }
+    }
+
+    fun getLatestJourney(userId: String)
+    {
+        //val urgentCodes: TextView = findViewById(R.id.urgentCodes)
+
+        val journeyName: TextView = findViewById(R.id.journeyName)
+        val toTv: TextView = findViewById(R.id.journeyTo)
+        val fromTv: TextView = findViewById(R.id.journeyFrom)
+
+        mAuth = FirebaseAuth.getInstance()
+
+        val db: DatabaseReference
+        //userId = mAuth.currentUser?.uid
+
+        db = FirebaseDatabase.getInstance().getReference("users").child(userId).child("journey")
+
+        db.orderByChild("timestamp").limitToLast(1).addListenerForSingleValueEvent(object : ValueEventListener
+        {
+            override fun onDataChange(snapshot: DataSnapshot) {
+                if(snapshot.exists())
+                {
+                    for(scanSnapshot in snapshot.children )
+                    {
+                        val journeyObj = scanSnapshot.getValue(Journey::class.java)
+
+                        if (journeyObj != null) {
+                            journeyName.text = journeyObj.name
+                            toTv.text = journeyObj.to
+                            fromTv.text = journeyObj.from
+                        }
+
+
+
+
+                    }
+
+                }
+
+
+
+            }
+
+            override fun onCancelled(error: DatabaseError) {
+
+            }
+        })
+
     }
 
 
