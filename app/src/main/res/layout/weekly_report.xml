@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/main"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/offWhite">
+
+    <TextView
+        android:id="@+id/weeklyReports"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="20dp"
+        android:layout_marginTop="50dp"
+        android:text="Weekly Driving Behaviour Report"
+        android:textAlignment="center"
+        android:textSize="24dp"
+        android:textColor="@color/royal_blue"
+        android:textStyle="bold">
+    </TextView>
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:fillViewport="true">
+
+
+        <LinearLayout
+            android:id="@+id/graphs"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:background="@color/offWhite">
+
+
+
+            <TextView
+                android:id="@+id/week"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textColor="@color/black"/>
+
+            <com.github.mikephil.charting.charts.BarChart
+                android:id="@+id/barChart"
+                android:layout_width="match_parent"
+                android:layout_height="200dp"
+                android:layout_marginBottom="10dp"/>
+
+            <com.github.mikephil.charting.charts.BarChart
+                android:id="@+id/fuelChart"
+                android:layout_width="match_parent"
+                android:layout_height="150dp"/>
+
+
+        </LinearLayout>
+
+    </ScrollView>
+    
+    <com.google.android.material.bottomnavigation.BottomNavigationView
+        android:id="@+id/bottomNav"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:itemIconSize="32dp"
+        android:layout_marginBottom="10dp"
+        app:itemTextAppearanceActive="@style/Widget.MyApp.BottomNav.TextActive"
+        app:itemTextAppearanceInactive="@style/Widget.MyApp.BottomNav.TextInactive"
+        app:labelVisibilityMode="labeled"
+        android:background="@color/water_blue"
+        app:menu="@menu/bottom_nav_menu"
+        app:itemIconTint="@color/royal_blue"
+        app:itemTextAppearanceActiveBoldEnabled="true"
+        app:itemTextColor="@color/white"
+        app:itemHorizontalTranslationEnabled="false"/>
+
+</LinearLayout>

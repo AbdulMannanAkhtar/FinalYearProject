@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="black">#FF000000</color>
+    <color name="white">#FFFFFFFF</color>
+    <color name="gold_grey">#808080</color>
+    <color name="blue_purple"> #2A2F4F</color>
+    <color name="royal_blue">#4169E1</color>
+    <color name="offWhite">#FAF9F6</color>
+    <color name="bluetooth_blue">#0000FF</color>
+    <color name="red">#FF0000</color>
+    <color name="amber">#FFBF00</color>
+    <color name="green">#50C878</color>
+    <color name="water_blue">#99C0E3</color>
+
+
+</resources>

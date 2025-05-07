@@ -1,0 +1,99 @@
+{
+    "03":
+    {
+        "description" : "Mode 03 command sent",
+        "explanation" : "sent command 03 to retrieve mechanical issues relating to powertrain(engine and transmission)"
+
+    },
+    "43":
+    {
+        "description" : "Positive response",
+        "explanation" : "successful scan and response sent"
+    },
+    "00":
+    {
+        "description" : "No faults",
+        "explanation" : "No powertrain issues found in scan",
+        "symptoms" : "No Symptoms",
+        "severity": "No issues"
+    },
+    "P0001":
+    {
+        "description" : "Fuel Volume Regulator Control Circuit/Open",
+        "explanation" : "The powertrain module has detected a problem with the fuel volume control valve. most likey an open circut",
+        "symptoms" : "Malfunction indicator lamp (MIL) illumination. Vehicle won't start. 'Limp mode' enabled, and/or lack of power",
+        "severity": "Urgent"
+    },
+    "P0002":
+    {
+        "description" : "Fuel Volume Regulator Control Circuit Range/Performance",
+        "explanation" : "The fuel volume regulator is not working properly",
+        "symptoms" : "Decreased engine performance. Engine may stall. Increased fuel consumption",
+        "severity": "Urgent"
+    },
+    "P0003":
+    {
+        "description" : "Fuel Volume Regulator Control Circuit Low",
+        "explanation" : "This code relates to the the electrical system as part of the fuel volume regulator system. Automotive fuel systems consist of many components, the fuel tank, fuel pump, filter, lines, injectors, etc. One component in high pressure fuel systems is a high pressure fuel pump. It's job is to increase the fuel pressure for the very high pressure needed at the fuel rail for the injectors. These high pressure fuel pumps have a low pressure side and high pressure side, and a fuel volume regulator which controls the pressure. For this P0003 code, it refers to an electrical reading that is lower than expected (below normal range).",
+        "symptoms" : "Malfunction indicator lamp (MIL) illumination. Vehicle won't start. 'Limp mode' enabled, and/or lack of power",
+        "severity": "Urgent"
+    },
+    "P0004":
+    {
+        "description" : "Fuel Volume Regulator Control Circuit High",
+        "explanation" : "This code relates to the the electrical system as part of the fuel volume regulator system. Automotive fuel systems consist of many components, the fuel tank, fuel pump, filter, lines, injectors, etc. One component in high pressure fuel systems is a high pressure fuel pump. It's job is to increase the fuel pressure for the very high pressure needed at the fuel rail for the injectors. These high pressure fuel pumps have a low pressure side and high pressure side, and a fuel volume regulator which controls the pressure. For this P0004 code, it refers to an electrical reading that is above expected parameters",
+        "symptoms" : "Malfunction indicator lamp (MIL) illumination. Vehicle won't start. 'Limp mode' enabled, and/or lack of power",
+        "severity": "Urgent"
+    },
+    "P0010":
+    {
+        "description" : "'A' Camshaft Position Circuit/Open (Bank 1)",
+        "explanation" : "The engine control module (PCM) uses a Camshaft Position Actuator to adjust the camshaft accordingly. If the Camshaft does not respond as the PCM requests, the PCM will set code P0010.",
+        "symptoms" : "Malfunction indicator lamp (MIL) illumination. Decreased engine performance. Increased fuel consumption",
+        "severity": "Urgent"
+    },
+    "P0440":
+    {
+        "description" : "Evaporative Emission Control System Malfunction",
+        "explanation" : "The vehicle's engine control module (ECM) has detected a leak in the fuel tank vapour system or that a vapor pressure sensor has malfunctioned",
+        "symptoms" : "Check Engine Light will illuminate. In most cases, there are no adverse conditions noticed by the driver. In some cases, there may be a noticeable fuel odor caused by the release of fuel vapors",
+        "severity" : "Moderate"
+    },
+    "P0171": {
+        "description" : "System Too Lean (Bank 1)",
+        "explanation" : "The PCM has detected that the fuel–air mixture is too lean on bank 1, often due to vacuum leaks, a weak fuel pump, clogged injectors, or a dirty mass airflow sensor.",
+        "symptoms" : "MIL illumination, rough idle, hesitation on acceleration, poor fuel economy",
+        "severity" : "Urgent"
+    },
+    "P0174": {
+        "description" : "System Too Lean (Bank 2)",
+        "explanation" : "The PCM has detected that the fuel–air mixture is too lean on bank 1, often due to vacuum leaks, a weak fuel pump, clogged injectors, or a dirty mass airflow sensor.",
+        "symptoms" : "MIL illumination, rough idle, hesitation on acceleration, poor fuel economy",
+        "severity" : "Urgent"
+    },
+    "P0300": {
+        "description" : "Random/Multiple Cylinder Misfire Detected",
+        "explanation" : "The engine control module has observed multiple misfires across various cylinders, often caused by ignition faults, fuel delivery issues, or engine mechanical problems.",
+        "symptoms" : "MIL illumination, rough running, vibration, loss of power",
+        "severity" : "Urgent"
+    },
+    "P0420": {
+        "description" : "Catalyst System Efficiency Below Threshold (Bank 1)",
+        "explanation" : "The downstream O₂ sensor is detecting that the catalytic converter isn’t reducing emissions efficiently—often due to a failing cat, exhaust leaks, or sensor faults.",
+        "symptoms" : "MIL illumination, reduced fuel economy, failed emissions test",
+        "severity" : "Moderate"
+    },
+    "P0113": {
+        "description" : "Intake Air Temperature Sensor 1 Circuit High Input",
+        "explanation" : "The PCM is seeing a higher-than-expected voltage from the intake air temperature sensor—typically due to an open circuit or sensor failure.",
+        "symptoms" : "MIL illumination, rough idle, incorrect fuel mixture, poor cold-start performance",
+        "severity" : "Moderate"
+    },
+    "P0123": {
+        "description" : "Throttle/Pedal Position Sensor A Circuit High Input",
+        "explanation" : "The PCM is receiving a higher-than-expected signal from the throttle position sensor—often a result of sensor drift, wiring issues, or connector corrosion.",
+        "symptoms" : "MIL illumination, unpredictable throttle response, limp‐in mode",
+        "severity" : "Urgent"
+    }
+
+}

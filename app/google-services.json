@@ -1,0 +1,30 @@
+{
+  "project_info": {
+    "project_number": "275347019244",
+    "firebase_url": "https://mymotor-2ab9c-default-rtdb.europe-west1.firebasedatabase.app",
+    "project_id": "mymotor-2ab9c",
+    "storage_bucket": "mymotor-2ab9c.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:275347019244:android:868a867359565fb9349cc9",
+        "android_client_info": {
+          "package_name": "com.example.mymotor"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBWeciqdVkBbzviBB_BHSAdmvpYOagz0YM"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:padding="20dp"
+    android:textSize="16dp"
+    android:gravity="center_vertical"
+    android:background="@color/offWhite">
+
+    <TextView
+        android:id="@+id/title"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="More Information"
+        android:layout_marginTop="10dp"
+        android:layout_marginBottom="20dp"
+        android:textAlignment="center"
+        android:textSize="24dp"
+        android:textColor="@color/royal_blue"/>
+
+    <TextView
+        android:id="@+id/explanation"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="10dp"
+        android:textColor="@color/black"/>
+
+    <TextView
+        android:id="@+id/symptoms"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="10dp"
+        android:textColor="@color/black"/>
+
+    <TextView
+        android:id="@+id/severity"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="10dp"
+        android:textColor="@color/black"/>
+
+    <WebView
+        android:id="@+id/youtubeVideo"
+        android:layout_width="match_parent"
+        android:layout_height="300dp"/>
+
+    <ListView
+        android:id="@+id/garages"
+        android:layout_width="match_parent"
+        android:layout_height="124dp"
+        android:divider="@color/gold_grey"
+        android:textColor="@color/black"
+        android:dividerHeight="1dp">
+
+    </ListView>
+
+    <Button
+        android:id="@+id/close2"
+        android:layout_width="200dp"
+        android:layout_height="50dp"
+        android:layout_marginTop="50dp"
+        android:layout_marginBottom="20dp"
+        android:backgroundTint="@color/royal_blue"
+        android:layout_gravity="center"
+        android:onClick="close2"
+        android:text="Close"
+        android:textColor="@color/white" />
+
+
+
+
+</LinearLayout>
